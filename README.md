@@ -17,7 +17,8 @@ project/
 ├── CMakeLists.txt # Fichier de configuration CMake
 ├── README.md # Ce fichier 
 ├── main.cpp # Point d'entrée du programme (mode interactif et option --help/test) 
-├── Vec3.h / Vec3.cpp # Définition et implémentation de la classe Vec3 ├── Transform.h / Transform.cpp # Définition et implémentation de la transformation 3D 
+├── Vec3.h / Vec3.cpp # Définition et implémentation de la classe Vec3
+├── Transform.h / Transform.cpp # Définition et implémentation de la transformation 3D 
 ├── Utils.h / Utils.cpp # Fonctions utilitaires pour la saisie et le parsing 
 ├── Tests.h / Tests.cpp # Tests unitaires et exhaustifs
 ```
