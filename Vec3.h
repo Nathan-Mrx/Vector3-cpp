@@ -1,56 +1,54 @@
 ﻿#ifndef VEC3_H
 #define VEC3_H
 
-#include <iostream>
+#include <string>
 
 /**
- * @brief Classe représentant un vecteur en 3D.
- *
- * Cette classe stocke trois coordonnées (x, y, z) et fournit des opérations
- * de base telles que l'addition et la soustraction de vecteurs.
+ * @brief Classe représentant un vecteur 3D.
  */
 class Vec3 {
 public:
-    double x; /**< Coordonnée x */
-    double y; /**< Coordonnée y */
-    double z; /**< Coordonnée z */
+    double x; ///< Coordonnée x
+    double y; ///< Coordonnée y
+    double z; ///< Coordonnée z
 
     /**
      * @brief Constructeur par défaut.
-     *
-     * Initialise le vecteur à (0, 0, 0).
      */
     Vec3();
 
     /**
      * @brief Constructeur paramétré.
-     * @param x La coordonnée x.
-     * @param y La coordonnée y.
-     * @param z La coordonnée z.
+     * @param x Coordonnée x.
+     * @param y Coordonnée y.
+     * @param z Coordonnée z.
      */
     Vec3(double x, double y, double z);
 
     /**
-     * @brief Additionne deux vecteurs.
-     * @param other Le vecteur à ajouter.
-     * @return Un nouveau vecteur résultant de l'addition.
+     * @brief Retourne une représentation sous forme de chaîne de caractères.
+     * @return La chaîne représentant le vecteur.
      */
-    Vec3 operator+(const Vec3& other) const;
+    std::string toString() const;
 
     /**
-     * @brief Soustrait deux vecteurs.
-     * @param other Le vecteur à soustraire.
-     * @return Un nouveau vecteur résultant de la soustraction.
+     * @brief Convertit le vecteur en coordonnées sphériques.
+     *
+     * @param r (out) Distance.
+     * @param theta (out) Angle polaire (en degrés, mesuré depuis l'axe Z positif).
+     * @param phi (out) Angle azimutal (en degrés, dans le plan XY, mesuré depuis l'axe X positif).
      */
-    Vec3 operator-(const Vec3& other) const;
+    void toSpherical(double &r, double &theta, double &phi) const;
 
     /**
-     * @brief Surcharge de l'opérateur << pour l'affichage du vecteur.
-     * @param os Le flux de sortie.
-     * @param v Le vecteur à afficher.
-     * @return Le flux de sortie.
+     * @brief Crée un vecteur à partir de coordonnées sphériques.
+     *
+     * @param r Distance.
+     * @param theta Angle polaire (en degrés).
+     * @param phi Angle azimutal (en degrés).
+     * @return Un vecteur en coordonnées cartésiennes.
      */
-    friend std::ostream& operator<<(std::ostream& os, const Vec3& v);
+    static Vec3 fromSpherical(double r, double theta, double phi);
 };
 
 #endif // VEC3_H

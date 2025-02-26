@@ -1,92 +1,136 @@
-﻿# Transformation 3D - Vector3
+﻿# GeometricTransformations
 
-Ce projet implémente un système de transformation de vecteurs 3D. Le programme permet de convertir un vecteur exprimé dans le repère local d'un objet vers le repère universel en appliquant une rotation (autour de l'axe Y) suivie d'une translation.
+Ce projet implémente un système complet de transformations géométriques en 3D.  
+Il permet d'effectuer et de composer de multiples transformations sur un vecteur, telles que :
 
-## Fonctionnalités
+- **Rotation (R)** autour de l'axe X, Y ou Z
+- **Translation (T)**
+- **Changement d'échelle (Scaling, S)**
+- **Cisaillement (Shear, C)** – ici, un cisaillement de X en fonction de Y
+- **Projection (P)** – projection orthographique sur un plan (xy, xz ou yz)
+- **Réflexion (RE)** – réflexion par rapport à un plan (xy, xz ou yz)
 
-- **Saisie interactive** : L'utilisateur saisit le vecteur local, la translation et l'angle de rotation.
-- **Robustesse** : Chaque saisie est validée dans une boucle pour éviter les plantages en cas d'erreur de format.
-- **Gestion des erreurs** : Les erreurs de saisie sont gérées par des exceptions avec messages d'erreur explicites.
-- **Tests unitaires** : Un ensemble de tests exhaustifs (opérations sur les vecteurs, transformations, parsing des entrées) est disponible et peut être lancé via la ligne de commande.
-- **Aide en ligne de commande** : L'option `--help` affiche un message d'aide détaillé.
+De plus, le programme offre la possibilité (bonus) d'entrer et d'afficher les vecteurs en coordonnées sphériques.
+
+## Caractéristiques principales
+
+- **Interface interactive robuste :**  
+  Après chaque transformation, le vecteur courant est affiché et l'utilisateur peut choisir d'enchaîner une nouvelle transformation.
+
+- **Gestion sécurisée des saisies :**  
+  Les fonctions de saisie (« safeRead ») redemandent l'entrée en cas d'erreur, évitant ainsi tout crash du programme.
+
+- **Options en ligne de commande :**
+    - `--help` ou `-h` : Affiche un message d'aide détaillé.
+    - `test` : Lance la suite des tests unitaires pour valider le bon fonctionnement du module de transformations.
+
+- **Documentation Doxygen :**  
+  Le code est commenté avec des annotations Doxygen, ce qui permet de générer facilement une documentation technique complète.
 
 ## Structure du Projet
 
 ```
-project/ 
-├── CMakeLists.txt # Fichier de configuration CMake
-├── README.md # Ce fichier 
-├── main.cpp # Point d'entrée du programme (mode interactif et option --help/test) 
-├── Vec3.h / Vec3.cpp # Définition et implémentation de la classe Vec3
-├── Transform.h / Transform.cpp # Définition et implémentation de la transformation 3D 
-├── Utils.h / Utils.cpp # Fonctions utilitaires pour la saisie et le parsing 
-└── Tests.h / Tests.cpp # Tests unitaires et exhaustifs
+GeometricTransformations/
+├── CMakeLists.txt           # Fichier de configuration CMake
+├── README.md                # Ce fichier
+├── main.cpp                 # Point d'entrée du programme (mode interactif, test, aide)
+├── Vec3.h / Vec3.cpp        # Classe représentant un vecteur 3D et ses conversions (cartésien/sphérique)
+├── Matrix4.h / Matrix4.cpp  # Classe de matrice 4x4 pour les transformations
+├── Transformations.h / Transformations.cpp  
+                             # Fonctions de création de matrices pour chaque transformation géométrique
+├── Tests.h / Tests.cpp      # Module de tests unitaires
 ```
 
 ## Compilation
 
-### Avec CMake (CLion ou en ligne de commande)
+### Avec CMake
 
-Assurez-vous que `CMakeLists.txt` liste tous les fichiers sources. Par exemple :
+1. Ouvrez une invite de commandes ou un terminal à la racine du projet.
+2. Créez un dossier de build et compilez :
 
-```cmake
-cmake_minimum_required(VERSION 3.15)
-project(Vector3)
-
-set(CMAKE_CXX_STANDARD 11)
-
-add_executable(Vector3 
-    main.cpp 
-    Vec3.cpp 
-    Transform.cpp 
-    Utils.cpp 
-    Tests.cpp
-)
-```
-Ensuite, compilez le projet via CLion ou en ligne de commande :
-
-```bash
-mkdir build && cd build
-cmake ..
-cmake --build .
-```
+   ```bash
+   mkdir build && cd build
+   cmake ..
+   cmake --build .
+   ```
 
 ## Utilisation
+
 ### Mode Interactif
-Lancez l'exécutable sans argument pour entrer en mode interactif :
+
+Lancez l'exécutable sans aucun argument :
 
 ```bash
-./Vector3
+./GeometricTransformations
 ```
-Le programme vous demandera d'entrer :
 
-1. Les coordonnées du vecteur dans le repère de l'objet (exemple : 1 2 3 ou 1,2,3)
-2. La translation (exemple : -3 5 -1)
-3. L'angle de rotation (en degrés)
+Le programme vous guidera dans les étapes suivantes :
+1. Choix du mode de saisie du vecteur (cartésien ou sphérique).
+2. Saisie du vecteur à transformer.
+3. Transformation itérative :  
+   Après chaque transformation (rotation, translation, scaling, cisaillement, projection, réflexion), le vecteur courant est affiché. Vous pourrez ensuite choisir d'appliquer une nouvelle transformation ou de terminer.
+4. Optionnel : Affichage du vecteur final en coordonnées sphériques.
 
-### Mode Test
-Pour lancer les tests unitaires :
+### Ligne de commande
 
-```bash
-./Vector3 test
+- **Afficher l'aide :**
+
+  ```bash
+  ./GeometricTransformations --help
+  ```
+  ou
+  ```bash
+  ./GeometricTransformations -h
+  ```
+
+- **Lancer les tests unitaires :**
+
+  ```bash
+  ./GeometricTransformations test
+  ```
+
+### Exemple d'utilisation
+
+Après avoir lancé le programme en mode interactif, vous pourriez voir un déroulement comme suit :
+
 ```
-Le programme affichera le résultat de chaque test et un résumé final.
+Souhaitez-vous entrer le vecteur en coordonnees spherique ? (o/n) : n
+Entrez le vecteur en coordonnees cartesiennes (x y z) : 1 2 3
 
-### Affichage de l'Aide
-Pour afficher le message d'aide :
+Vecteur initial : (1, 2, 3)
 
-```bash
-./Vector3 --help
+Choisissez une transformation :
+  R  : Rotation
+  T  : Translation
+  S  : Scaling (Changement d'echelle)
+  C  : Cisaillement (Shear XY)
+  P  : Projection orthographique
+  RE : Reflection
+Votre choix : T
+Entrez dx (translation sur X) : 3
+Entrez dy (translation sur Y) : -2
+Entrez dz (translation sur Z) : 1
+
+Vecteur actuel apres transformation : (4, 0, 4)
+Souhaitez-vous effectuer une nouvelle transformation ? (o/n) : n
+
+Vecteur final transformé : (4, 0, 4)
+Afficher le resultat en coordonnees spherique ? (o/n) : o
+Coordonnees spherique : (r = 5.657, theta = 57.994 deg, phi = 0 deg)
 ```
-ou
 
-```bash
-./Vector3 -h
-```
+## Documentation
+
+Pour générer la documentation technique à l'aide de Doxygen, créez un fichier de configuration (par exemple, via la commande `doxygen -g`) et exécutez Doxygen dans le dossier du projet. Les commentaires présents dans le code permettront de générer une documentation complète.
 
 ## Auteur
-Nathan Merieux
-nathan.merieux@outlook.fr
+
+*Nathan Merieux*  
+*nathan.merieux@outlook.fr*
+
+*Romain Monney*  
+*romainmny@gmail.com*
 
 ## Licence
+
 Ce projet est sous licence MIT.

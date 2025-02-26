@@ -2,7 +2,7 @@
 #define TESTS_H
 
 /**
- * @brief Exécute l'ensemble des tests unitaires du projet.
+ * @brief Exécute l'ensemble des tests unitaires.
  */
 void runTests();
 
